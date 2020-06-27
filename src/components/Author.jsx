@@ -11,6 +11,29 @@ const Dashboard = ({ user }) => {
   const [author, setAuthor] = useState("");
   const [year, setYear] = useState("");
 
+  const { TextArea } = Input;
+
+  async function getBooks() {
+    try {
+      firebase
+        .getBooks()
+        .get()
+        .then(function (querySnapShot) {
+          querySnapShot.forEach(function (book) {
+            console.log(book.data());
+            return (
+              <div>
+                <h1>book.data().title</h1>
+                <h2>book.data().description</h2>
+              </div>
+            );
+          });
+        });
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
   async function handleSubmit() {
     try {
       firebase.bookRegister(title, description, author, year, user);
@@ -35,8 +58,9 @@ const Dashboard = ({ user }) => {
               }}
               autoComplete="off"
             />
-            <Input
+            <TextArea
               placeholder="Description"
+              rows={4}
               style={{ marginBottom: "10px" }}
               onChange={(e) => {
                 setDescription(e.target.value);
@@ -45,6 +69,7 @@ const Dashboard = ({ user }) => {
             />
             <Input
               placeholder="Year"
+              type="number"
               style={{ marginBottom: "10px" }}
               onChange={(e) => {
                 setYear(e.target.value);

@@ -1,6 +1,7 @@
 import App from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import { Divider } from "antd";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAF53LnK16LZnnSech21gArFUHUABPpNpU",
@@ -63,6 +64,10 @@ class Firebase {
     } catch (error) {
       console.log("Error creating book: ");
     }
+  }
+
+  getBooks() {
+    return this.db.collection("books");
   }
 }
 

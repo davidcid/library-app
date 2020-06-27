@@ -4,6 +4,7 @@ import Dashboard from "./components/Dashboard";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Author from "./components/Author";
+import Customer from "./components/Customer";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import "antd/dist/antd.css";
 import { AuthProvider } from "./Auth";
@@ -17,6 +18,7 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/author" component={Author} />
+        <Route exact path="/customer" component={Customer} />
       </Router>
     </AuthProvider>
   );

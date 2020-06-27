@@ -14,7 +14,7 @@ const Register = (props) => {
   async function handleSubmit() {
     try {
       firebase.userRegister(firstName, lastName, email, password, role);
-      props.history.push("/author");
+      props.history.push("/dashboard");
     } catch (err) {
       alert(err.message);
     }
