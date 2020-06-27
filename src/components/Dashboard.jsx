@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Container } from "../styles/styled";
+import { AuthContext } from "../Auth";
 
-/**
- * @author
- * @function Dashboard
- **/
-
-const Dashboard = (props) => {
-  return <div>Dashboard</div>;
+const Dashboard = () => {
+  const { currentUser } = useContext(AuthContext);
+  if (currentUser != null) {
+    return <Container>{currentUser.email}</Container>;
+  }
+  return <h1>What are you doing here??!??? You don't belong!</h1>;
 };
 
 export default Dashboard;

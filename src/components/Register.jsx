@@ -10,12 +10,7 @@ const Register = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onRegister();
-  };
-
-  async function onRegister() {
+  async function handleSubmit() {
     try {
       firebase.register(firstName, lastName, email, password);
       props.history.push("/dashboard");
@@ -27,7 +22,7 @@ const Register = (props) => {
   return (
     <Container>
       <Card title="Registration" style={{ width: 300, textAlign: "center" }}>
-        <Form onSubmit={handleSubmit}>
+        <Form onFinish={handleSubmit}>
           <Input
             placeholder="First Name"
             style={{ marginBottom: "10px" }}

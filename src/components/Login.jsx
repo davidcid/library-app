@@ -8,9 +8,7 @@ const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    console.log("hey");
-    e.preventDefault();
+  const handleSubmit = () => {
     firebase
       .login(email, password)
       .then(props.history.push("/dashboard"))
@@ -22,7 +20,7 @@ const Login = (props) => {
   return (
     <Container>
       <Card title="Login" style={{ width: 300, textAlign: "center" }}>
-        <Form onSubmit={handleSubmit}>
+        <Form onFinish={handleSubmit}>
           <Input
             prefix={<MailOutlined style={{ color: "rgba(0, 0, 0, 0.25)" }} />}
             placeholder="Email"
