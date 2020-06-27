@@ -1,6 +1,6 @@
 import App from "firebase/app";
 import "firebase/auth";
-import "firebase/firebase-firestore";
+import "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAF53LnK16LZnnSech21gArFUHUABPpNpU",
@@ -23,11 +23,19 @@ class Firebase {
     return this.auth.signInWithEmailAndPassword(email, password);
   }
 
-  async register(firstName, lastName, email, password) {
-    await this.auth.createUserWithEmailAndPassword(email, password);
-    return this.auth.currentUser.updateProfile({
-      displayName: firstName + " " + lastName,
-    });
+  async userRegister(firstName, lastName, email, password, role) {
+    try {
+      await this.auth.createUserWithEmailAndPassword(email, password);
+      const docRef = await this.db.collection("users").add({
+        first: firstName,
+        last: lastName,
+        email: email,
+        role: role,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      console.log("Error creating user: ");
+    }
   }
 
   logout() {
@@ -40,6 +48,21 @@ class Firebase {
 
   authChange(user) {
     return this.auth.onAuthStateChanged(user);
+  }
+
+  async bookRegister(title, description, author, year, user) {
+    try {
+      const docRef = await this.db.collection("books").add({
+        title: title,
+        description: description,
+        author: author,
+        year: year,
+        user: user,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      console.log("Error creating book: ");
+    }
   }
 }
 

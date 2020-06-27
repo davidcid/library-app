@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Card } from "antd";
+import { Form, Input, Button, Card, Radio } from "antd";
 import { Container } from "../styles/styled";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import firebase from "../config/firebase";
@@ -9,11 +9,12 @@ const Register = (props) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
 
   async function handleSubmit() {
     try {
-      firebase.register(firstName, lastName, email, password);
-      props.history.push("/dashboard");
+      firebase.userRegister(firstName, lastName, email, password, role);
+      props.history.push("/author");
     } catch (err) {
       alert(err.message);
     }
@@ -58,6 +59,15 @@ const Register = (props) => {
             }}
             autoComplete="off"
           />
+          <Radio.Group
+            onChange={(e) => {
+              setRole(e.target.value);
+            }}
+            style={{ marginBottom: "10px" }}
+          >
+            <Radio value="customer">Customer</Radio>
+            <Radio value="author">Author</Radio>
+          </Radio.Group>
           <Button
             type="primary"
             htmlType="submit"
