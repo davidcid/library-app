@@ -2,13 +2,21 @@ import React, { useState } from "react";
 import { Form, Input, Button, Card } from "antd";
 import { Container } from "../styles/styled";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import firebase from "../config/firebase";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
+    console.log("hey");
     e.preventDefault();
+    firebase
+      .login(email, password)
+      .then(props.history.push("/dashboard"))
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   return (
@@ -26,6 +34,7 @@ const Login = (props) => {
           />
           <Input
             prefix={<LockOutlined style={{ color: "rgba(0, 0, 0, 0.25)" }} />}
+            type="password"
             placeholder="Password"
             style={{ marginBottom: "10px" }}
             onChange={(e) => {

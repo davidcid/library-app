@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Input, Button, Card } from "antd";
 import { Container } from "../styles/styled";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import firebase from "../config/firebase";
 
 const Register = (props) => {
   const [firstName, setFirstName] = useState("");
@@ -11,7 +12,17 @@ const Register = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    onRegister();
   };
+
+  async function onRegister() {
+    try {
+      firebase.register(firstName, lastName, email, password);
+      props.history.push("/dashboard");
+    } catch (err) {
+      alert(err.message);
+    }
+  }
 
   return (
     <Container>
@@ -44,6 +55,7 @@ const Register = (props) => {
           />
           <Input
             prefix={<LockOutlined style={{ color: "rgba(0, 0, 0, 0.25)" }} />}
+            type="password"
             placeholder="Password"
             style={{ marginBottom: "10px" }}
             onChange={(e) => {
@@ -62,10 +74,10 @@ const Register = (props) => {
           Or
           <Button
             type="primary"
-            style={{ width: "100%", marginTop: "10px", marginBottom: "10px" }}
             onClick={() => {
               props.history.push("/login");
             }}
+            style={{ width: "100%", marginTop: "10px" }}
           >
             Login
           </Button>
