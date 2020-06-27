@@ -1,7 +1,6 @@
 import App from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { Divider } from "antd";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAF53LnK16LZnnSech21gArFUHUABPpNpU",

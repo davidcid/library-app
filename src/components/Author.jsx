@@ -4,7 +4,7 @@ import { Container } from "../styles/styled";
 import { AuthContext } from "../Auth";
 import firebase from "../config/firebase";
 
-const Dashboard = ({ user }) => {
+const Author = ({ user }) => {
   const { currentUser } = useContext(AuthContext);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -12,27 +12,6 @@ const Dashboard = ({ user }) => {
   const [year, setYear] = useState("");
 
   const { TextArea } = Input;
-
-  async function getBooks() {
-    try {
-      firebase
-        .getBooks()
-        .get()
-        .then(function (querySnapShot) {
-          querySnapShot.forEach(function (book) {
-            console.log(book.data());
-            return (
-              <div>
-                <h1>book.data().title</h1>
-                <h2>book.data().description</h2>
-              </div>
-            );
-          });
-        });
-    } catch (err) {
-      alert(err.message);
-    }
-  }
 
   async function handleSubmit() {
     try {
@@ -96,9 +75,7 @@ const Dashboard = ({ user }) => {
         </Card>
       </Container>
     );
-    // return <Container>{currentUser.email}</Container>;
   }
-  //   return <h1>What are you doing here??!??? You don't belong!</h1>;
 };
 
-export default Dashboard;
+export default Author;

@@ -4,6 +4,7 @@ import { AuthContext } from "../Auth";
 import firebase from "../config/firebase";
 import { Link } from "react-router-dom";
 import Author from "../components/Author";
+import BookList from "../components/BooksList";
 
 const Dashboard = (props) => {
   const { currentUser } = useContext(AuthContext);
@@ -31,6 +32,7 @@ const Dashboard = (props) => {
         <h1>Welcome {currentUser.displayName}</h1>
         <Container>
           <Author user={currentUser.uid} />
+          <BookList />
         </Container>
       </div>
     );
