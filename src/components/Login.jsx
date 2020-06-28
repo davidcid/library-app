@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Card } from "antd";
+import { Form, Input, Button, Card, notification } from "antd";
 import { Container } from "../styles/styled";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import firebase from "../config/firebase";
@@ -13,8 +13,18 @@ const Login = (props) => {
       .login(email, password)
       .then(props.history.push("/dashboard"))
       .catch((err) => {
-        alert(err);
+        props.history.push("/login");
+        openNotification(err);
       });
+  };
+
+  const openNotification = (err) => {
+    notification.open({
+      message: "Login error",
+      description: err.message,
+      type: "error",
+      duration: 5,
+    });
   };
 
   return (

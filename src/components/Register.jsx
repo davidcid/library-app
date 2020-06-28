@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Card, Radio } from "antd";
+import { Form, Input, Button, Card, Radio, notification } from "antd";
 import { Container } from "../styles/styled";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import firebase from "../config/firebase";
@@ -11,14 +11,24 @@ const Register = (props) => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
-  async function handleSubmit() {
-    try {
-      firebase.userRegister(firstName, lastName, email, password, role);
-      props.history.push("/dashboard");
-    } catch (err) {
-      alert(err.message);
-    }
-  }
+  const handleSubmit = () => {
+    firebase
+      .userRegister(firstName, lastName, email, password, role)
+      .then(props.history.push("/dashboard"))
+      .catch((err) => {
+        props.history.push("/register");
+        openNotification(err);
+      });
+  };
+
+  const openNotification = (err) => {
+    notification.open({
+      message: "Login error",
+      description: err.message,
+      type: "error",
+      duration: 5,
+    });
+  };
 
   return (
     <Container>

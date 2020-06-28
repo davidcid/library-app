@@ -24,18 +24,14 @@ class Firebase {
   }
 
   async userRegister(firstName, lastName, email, password, role) {
-    try {
-      await this.auth.createUserWithEmailAndPassword(email, password);
-      const docRef = await this.db.collection("users").add({
-        first: firstName,
-        last: lastName,
-        email: email,
-        role: role,
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (error) {
-      console.log("Error creating user: ");
-    }
+    const docRef = await this.db.collection("users").add({
+      first: firstName,
+      last: lastName,
+      email: email,
+      role: role,
+    });
+    console.log("Document written with ID: ", docRef.id);
+    return await this.auth.createUserWithEmailAndPassword(email, password);
   }
 
   logout() {
@@ -67,6 +63,10 @@ class Firebase {
 
   getBooks() {
     return this.db.collection("books");
+  }
+
+  getRole() {
+    return this.db.collection("users");
   }
 }
 

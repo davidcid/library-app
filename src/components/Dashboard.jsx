@@ -1,19 +1,50 @@
-import React, { useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Container } from "../styles/styled";
 import { AuthContext } from "../Auth";
 import firebase from "../config/firebase";
 import { Link } from "react-router-dom";
 import Author from "../components/Author";
+import Customer from "../components/Customer";
 import BookList from "../components/BooksList";
 
 const Dashboard = (props) => {
   const { currentUser } = useContext(AuthContext);
+  const [role, setRole] = useState("");
+
+  async function getRole() {
+    try {
+      firebase
+        .getRole()
+        .where("email", "==", currentUser.email)
+        .get()
+        .then((snapShots) => {
+          setRole(
+            snapShots.docs.map((doc) => {
+              return doc.data().role;
+            })
+          );
+        })
+        .catch(function (error) {
+          console.log("Error getting role: ", error);
+        });
+    } catch (err) {
+      alert(err.message);
+    }
+  }
 
   const logout = () => {
     firebase.logout();
     props.history.push("/register");
   };
-  if (currentUser != null) {
+
+  useEffect(() => {
+    if (currentUser !== null) {
+      getRole();
+    }
+  }, currentUser);
+
+  if (currentUser !== null) {
+    console.log(role);
     return (
       <div>
         <Link
@@ -29,9 +60,14 @@ const Dashboard = (props) => {
         >
           Sign Out
         </Link>
-        <h1>Welcome {currentUser.displayName}</h1>
+        <h1>Welcome {currentUser.email}</h1>
         <Container>
-          <Author user={currentUser.uid} />
+          {role[0] === "customer" ? (
+            <Customer />
+          ) : (
+            <Author user={currentUser.uid} />
+          )}
+
           <BookList />
         </Container>
       </div>
