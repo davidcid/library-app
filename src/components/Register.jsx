@@ -11,16 +11,6 @@ const Register = (props) => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
-  // const handleSubmit = () => {
-  //   firebase
-  //     .userRegister(firstName, lastName, email, password, role)
-  //     .then(props.history.push("/dashboard"))
-  //     .catch((err) => {
-  //       props.history.push("/register");
-  //       openNotification(err);
-  //     });
-  // };
-
   async function createUser() {
     await firebase.auth
       .createUserWithEmailAndPassword(email, password)

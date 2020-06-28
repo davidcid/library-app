@@ -3,13 +3,13 @@ import "firebase/auth";
 import "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDfPy4SE3z2MDy8HC6n7FEufj0JAnlEYrw",
-  authDomain: "library-51347.firebaseapp.com",
-  databaseURL: "https://library-51347.firebaseio.com",
-  projectId: "library-51347",
-  storageBucket: "library-51347.appspot.com",
-  messagingSenderId: "312544816686",
-  appId: "1:312544816686:web:4fa2d8a865d6bc0a5bf9bf",
+  apiKey: "AIzaSyDXeY6PE7aKV9jXAKRbO4e_N8sORovgWrE",
+  authDomain: "libraryapp-5d238.firebaseapp.com",
+  databaseURL: "https://libraryapp-5d238.firebaseio.com",
+  projectId: "libraryapp-5d238",
+  storageBucket: "libraryapp-5d238.appspot.com",
+  messagingSenderId: "1096907759529",
+  appId: "1:1096907759529:web:6d002ef4a4c7cb5c0deeb8",
 };
 
 class Firebase {
@@ -19,36 +19,8 @@ class Firebase {
     this.db = App.firestore();
   }
 
-  login(email, password) {
-    return this.auth.signInWithEmailAndPassword(email, password);
-  }
-
-  async userRegister(firstName, lastName, email, password, role) {
-    const docRef = await this.db.collection("users").add({
-      first: firstName,
-      last: lastName,
-      email: email,
-      role: role,
-    });
-    console.log("Document written with ID: ", docRef.id);
-    return await this.auth.createUserWithEmailAndPassword(email, password);
-  }
-
-  logout() {
-    return this.auth.signOut();
-  }
-
-  getUser() {
-    const user = this.auth.currentUser();
-    console.log(user);
-  }
-
   authChange(user) {
     return this.auth.onAuthStateChanged(user);
-  }
-
-  getRole() {
-    return this.db.collection("users");
   }
 }
 

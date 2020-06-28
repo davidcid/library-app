@@ -7,21 +7,26 @@ const BooksList = () => {
   const { currentUser } = useContext(AuthContext);
   const [books, setBooks] = useState([]);
 
-  useEffect(() => {
-    firebase.db
-      .collection("books")
-      .get()
-      .then(function (snapShots) {
-        setBooks({
-          items: snapShots.docs.map((doc) => {
-            return {
-              id: doc.id,
-              data: doc.data(),
-            };
-          }),
-        });
-      });
-  }, []);
+  // useEffect(() => {
+
+  //   console.log(books);
+  // }, []);
+
+  // const getBooks = async () => {
+  //   await firebase.db
+  //     .collection("books")
+  //     .get()
+  //     .then(function (snapShots) {
+  //       setBooks({
+  //         items: snapShots.docs.map((doc) => {
+  //           return {
+  //             id: doc.id,
+  //             data: doc.data(),
+  //           };
+  //         }),
+  //       });
+  //     });
+  // };
 
   if (currentUser != null) {
     return (

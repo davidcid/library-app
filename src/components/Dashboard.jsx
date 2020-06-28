@@ -8,33 +8,29 @@ import { PageHeader, Button } from "antd";
 
 const Dashboard = (props) => {
   const { currentUser } = useContext(AuthContext);
-  const [role, setRole] = useState("");
+  const [user, setUser] = useState({});
 
   const logout = () => {
-    firebase.logout();
+    firebase.auth.signOut();
     props.history.push("/register");
   };
 
   useEffect(() => {
     if (currentUser !== null) {
-      try {
-        firebase.db
+      const getRole = async () => {
+        await firebase.db
           .collection("users")
           .where("email", "==", currentUser.email)
           .get()
           .then((snapShots) => {
-            setRole(
-              snapShots.docs.map((doc) => {
-                return doc.data().role;
-              })
-            );
+            setUser(snapShots.docs[0].data());
           })
           .catch(function (error) {
             console.log("Error getting role: ", error);
           });
-      } catch (err) {
-        alert(err.message);
-      }
+      };
+
+      getRole();
     }
   }, [currentUser]);
 
@@ -45,14 +41,13 @@ const Dashboard = (props) => {
           className="site-page-header"
           title="Library App"
           extra={[<Button onClick={logout}>Sign Out</Button>]}
-          footer={[<h3>Welcome {currentUser.uid}</h3>]}
+          footer={[<h3>Welcome {user.first}</h3>]}
           style={{ backgroundColor: "#f5f5f5" }}
         />
         <main
           style={{ maxWidth: "1300px", padding: "4% 7%", margin: "0 auto" }}
         >
-          {" "}
-          {role[0] === "customer" ? (
+          {user.role === "customer" ? (
             <Customer />
           ) : (
             <Author user={currentUser.uid} />

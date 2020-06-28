@@ -8,8 +8,8 @@ const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = () => {
-    firebase.auth
+  const handleSubmit = async () => {
+    await firebase.auth
       .signInWithEmailAndPassword(email, password)
       .then(props.history.push("/dashboard"))
       .catch((err) => {
