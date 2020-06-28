@@ -10,27 +10,6 @@ const Dashboard = (props) => {
   const { currentUser } = useContext(AuthContext);
   const [role, setRole] = useState("");
 
-  async function getRole() {
-    try {
-      firebase
-        .getRole()
-        .where("email", "==", currentUser.email)
-        .get()
-        .then((snapShots) => {
-          setRole(
-            snapShots.docs.map((doc) => {
-              return doc.data().role;
-            })
-          );
-        })
-        .catch(function (error) {
-          console.log("Error getting role: ", error);
-        });
-    } catch (err) {
-      alert(err.message);
-    }
-  }
-
   const logout = () => {
     firebase.logout();
     props.history.push("/register");
@@ -38,9 +17,26 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (currentUser !== null) {
-      getRole();
+      try {
+        firebase.db
+          .collection("users")
+          .where("email", "==", currentUser.email)
+          .get()
+          .then((snapShots) => {
+            setRole(
+              snapShots.docs.map((doc) => {
+                return doc.data().role;
+              })
+            );
+          })
+          .catch(function (error) {
+            console.log("Error getting role: ", error);
+          });
+      } catch (err) {
+        alert(err.message);
+      }
     }
-  }, currentUser);
+  }, [currentUser]);
 
   if (currentUser !== null) {
     return (
@@ -65,7 +61,18 @@ const Dashboard = (props) => {
       </div>
     );
   }
-  return <h1>What are you doing here??!??? You don't belong!</h1>;
+  return (
+    <h1
+      style={{
+        margin: "0 auto",
+        textAlign: "center",
+        marginTop: "25%",
+        color: "rgba(0,0,0,.5)",
+      }}
+    >
+      Loading...
+    </h1>
+  );
 };
 
 export default Dashboard;

@@ -6,10 +6,11 @@ import firebase from "../config/firebase";
 const BooksList = ({ user }) => {
   const { currentUser } = useContext(AuthContext);
   const [books, setBooks] = useState([]);
+  const [editedBook, setEditedBook] = useState();
 
   useEffect(() => {
-    firebase
-      .getBooks()
+    firebase.db
+      .collection("books")
       .where("user", "==", user)
       .get()
       .then(function (snapShots) {
@@ -24,8 +25,27 @@ const BooksList = ({ user }) => {
       });
   }, [user]);
 
+  console.log(user);
+
+  const getBook = (id) => {
+    let docRef = firebase.db.collection("books").doc(id);
+    docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          setEditedBook(doc.data());
+        } else {
+          console.log("the document doesn't exist");
+        }
+        console.log(editedBook);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const deleteBook = (id) => {
-    firebase.deleteBook(id);
+    firebase.db.collection("books").doc(id).delete();
   };
 
   if (currentUser != null) {
@@ -52,6 +72,9 @@ const BooksList = ({ user }) => {
                     margin: "0 5px",
                     minWidth: "55px",
                     backgroundColor: "#f2bf20",
+                  }}
+                  onClick={() => {
+                    getBook(book.id);
                   }}
                 >
                   Edit

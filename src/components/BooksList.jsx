@@ -8,8 +8,8 @@ const BooksList = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    firebase
-      .getBooks()
+    firebase.db
+      .collection("books")
       .get()
       .then(function (snapShots) {
         setBooks({

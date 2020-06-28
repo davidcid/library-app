@@ -9,8 +9,8 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
-    firebase
-      .login(email, password)
+    firebase.auth
+      .signInWithEmailAndPassword(email, password)
       .then(props.history.push("/dashboard"))
       .catch((err) => {
         props.history.push("/login");

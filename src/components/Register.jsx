@@ -11,15 +11,38 @@ const Register = (props) => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
-  const handleSubmit = () => {
-    firebase
-      .userRegister(firstName, lastName, email, password, role)
+  // const handleSubmit = () => {
+  //   firebase
+  //     .userRegister(firstName, lastName, email, password, role)
+  //     .then(props.history.push("/dashboard"))
+  //     .catch((err) => {
+  //       props.history.push("/register");
+  //       openNotification(err);
+  //     });
+  // };
+
+  async function createUser() {
+    await firebase.auth
+      .createUserWithEmailAndPassword(email, password)
+      .catch((err) => {
+        openNotification(err);
+        props.history.push("/register");
+      });
+    const docRef = await firebase.db
+      .collection("users")
+      .add({
+        first: firstName,
+        last: lastName,
+        email: email,
+        role: role,
+      })
       .then(props.history.push("/dashboard"))
       .catch((err) => {
-        props.history.push("/register");
         openNotification(err);
+        props.history.push("/register");
       });
-  };
+    console.log("User created with ID: ", docRef.id);
+  }
 
   const openNotification = (err) => {
     notification.open({
@@ -33,7 +56,7 @@ const Register = (props) => {
   return (
     <Container>
       <Card title="Registration" style={{ width: 300, textAlign: "center" }}>
-        <Form onFinish={handleSubmit}>
+        <Form onFinish={createUser}>
           <Input
             placeholder="First Name"
             style={{ marginBottom: "10px" }}

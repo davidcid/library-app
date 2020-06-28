@@ -47,31 +47,8 @@ class Firebase {
     return this.auth.onAuthStateChanged(user);
   }
 
-  async bookRegister(title, description, author, year, user) {
-    try {
-      const docRef = await this.db.collection("books").add({
-        title: title,
-        description: description,
-        author: author,
-        year: year,
-        user: user,
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (error) {
-      console.log("Error creating book: ");
-    }
-  }
-
-  getBooks() {
-    return this.db.collection("books");
-  }
-
   getRole() {
     return this.db.collection("users");
-  }
-
-  deleteBook(id) {
-    return this.db.collection("books").doc(id).delete();
   }
 }
 
