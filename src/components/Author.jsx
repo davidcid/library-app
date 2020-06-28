@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Form, Input, Button, Card } from "antd";
-import { Container } from "../styles/styled";
 import { AuthContext } from "../Auth";
 import firebase from "../config/firebase";
+import BookList from "../components/BooksList";
+import MyBooks from "../components/MyBooks";
 
 const Author = ({ user }) => {
   const { currentUser } = useContext(AuthContext);
@@ -23,7 +24,9 @@ const Author = ({ user }) => {
 
   if (currentUser != null) {
     return (
-      <Container>
+      <div>
+        <MyBooks user={currentUser.uid} />
+        <BookList />
         <Card
           title="Book Registration"
           style={{ width: 300, textAlign: "center" }}
@@ -73,7 +76,7 @@ const Author = ({ user }) => {
             </Button>
           </Form>
         </Card>
-      </Container>
+      </div>
     );
   }
 };

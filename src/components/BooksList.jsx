@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Card } from "antd";
-import { Container } from "../styles/styled";
 import { AuthContext } from "../Auth";
 import firebase from "../config/firebase";
 
@@ -8,43 +7,55 @@ const BooksList = () => {
   const { currentUser } = useContext(AuthContext);
   const [books, setBooks] = useState([]);
 
-  async function getBooks() {
-    try {
-      firebase
-        .getBooks()
-        .get()
-        .then((snapShots) => {
-          setBooks({
-            items: snapShots.docs.map((doc) => {
-              return {
-                id: doc.id,
-                data: doc.data(),
-              };
-            }),
-          });
-        });
-    } catch (err) {
-      alert(err.message);
-    }
-  }
-
   useEffect(() => {
-    getBooks();
+    firebase
+      .getBooks()
+      .get()
+      .then(function (snapShots) {
+        setBooks({
+          items: snapShots.docs.map((doc) => {
+            return {
+              id: doc.id,
+              data: doc.data(),
+            };
+          }),
+        });
+      });
   }, []);
 
   if (currentUser != null) {
     return (
-      <Container>
-        <Card title="Books List" style={{ width: 300, textAlign: "center" }}>
-          <div>
-            {books.items && books.items !== undefined
-              ? books.items.map((book, key) => {
-                  return <div key={key}>{book.data.title}</div>;
-                })
-              : null}
-          </div>
-        </Card>
-      </Container>
+      <div>
+        <h1>Other Books Registered</h1>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          {books.items && books.items !== undefined
+            ? books.items.map((book, key) => {
+                return (
+                  <Card
+                    key={key}
+                    title={book.data.title}
+                    style={{
+                      width: "250px",
+                      textAlign: "center",
+                      margin: "20px 10px",
+                      maxHeight: "400px",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <h3>Year: {book.data.year}</h3>
+                    <p style={{ textAlign: "left" }}>{book.data.description}</p>
+                  </Card>
+                );
+              })
+            : null}
+        </div>
+      </div>
     );
   }
 };

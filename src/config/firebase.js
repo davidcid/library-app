@@ -3,13 +3,13 @@ import "firebase/auth";
 import "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAF53LnK16LZnnSech21gArFUHUABPpNpU",
-  authDomain: "library-app-5dc65.firebaseapp.com",
-  databaseURL: "https://library-app-5dc65.firebaseio.com",
-  projectId: "library-app-5dc65",
-  storageBucket: "library-app-5dc65.appspot.com",
-  messagingSenderId: "12259679673",
-  appId: "1:12259679673:web:38f2d078c70a55e2136a68",
+  apiKey: "AIzaSyDfPy4SE3z2MDy8HC6n7FEufj0JAnlEYrw",
+  authDomain: "library-51347.firebaseapp.com",
+  databaseURL: "https://library-51347.firebaseio.com",
+  projectId: "library-51347",
+  storageBucket: "library-51347.appspot.com",
+  messagingSenderId: "312544816686",
+  appId: "1:312544816686:web:4fa2d8a865d6bc0a5bf9bf",
 };
 
 class Firebase {
@@ -39,7 +39,8 @@ class Firebase {
   }
 
   getUser() {
-    return this.auth.currentUser();
+    const user = this.auth.currentUser();
+    console.log(user);
   }
 
   authChange(user) {
