@@ -1,7 +1,12 @@
 import React from "react";
+import BooksList from "./BooksList";
 
 const Customer = (props) => {
-  return <div>Customer</div>;
+  return (
+    <div>
+      <BooksList />
+    </div>
+  );
 };
 
 export default Customer;

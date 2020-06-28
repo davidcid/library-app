@@ -8,33 +8,29 @@ const BooksList = ({ user }) => {
   const [myBooks, setMyBooks] = useState([]);
   const [editedBook, setEditedBook] = useState();
 
-  const getBooks = async () => {
-    await firebase.db
-      .collection("books")
-      .where("user", "==", user)
-      .get()
-      .then(function (snapShots) {
-        setMyBooks({
-          items: snapShots.docs.map((doc) => {
-            return {
-              id: doc.id,
-              data: doc.data(),
-            };
-          }),
-        });
-      });
-  };
-
-  console.log(myBooks);
-
   useEffect(() => {
+    const getBooks = async () => {
+      await firebase.db
+        .collection("books")
+        .where("user", "==", user)
+        .get()
+        .then(function (snapShots) {
+          setMyBooks({
+            items: snapShots.docs.map((doc) => {
+              return {
+                id: doc.id,
+                data: doc.data(),
+              };
+            }),
+          });
+        });
+    };
+
     getBooks();
-    console.log(myBooks);
   }, []);
 
   const deleteBook = async (id) => {
     await firebase.db.collection("books").doc(id).delete();
-    getBooks();
     console.log(`The book ${id} has been deleted`);
   };
 
@@ -49,7 +45,14 @@ const BooksList = ({ user }) => {
                 key={key}
                 style={{ listStyle: "none", padding: "8px", fontSize: "16px" }}
               >
-                <p style={{ display: "inline-block", minWidth: "200px" }}>
+                <p
+                  style={{
+                    display: "inline-block",
+                    minWidth: "250px",
+                    marginRight: "20px",
+                    textAlign: "right",
+                  }}
+                >
                   {book.data.title}
                 </p>
                 <Button

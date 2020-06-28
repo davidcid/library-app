@@ -9,6 +9,7 @@ import { PageHeader, Button } from "antd";
 const Dashboard = (props) => {
   const { currentUser } = useContext(AuthContext);
   const [user, setUser] = useState({});
+  const [books, setBooks] = useState([]);
 
   const logout = () => {
     firebase.auth.signOut();

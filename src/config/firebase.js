@@ -18,10 +18,6 @@ class Firebase {
     this.auth = App.auth();
     this.db = App.firestore();
   }
-
-  authChange(user) {
-    return this.auth.onAuthStateChanged(user);
-  }
 }
 
 export default new Firebase();
