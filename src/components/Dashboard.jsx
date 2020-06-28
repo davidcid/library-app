@@ -10,6 +10,7 @@ const Dashboard = (props) => {
   const { currentUser } = useContext(AuthContext);
   const [user, setUser] = useState({});
   const [books, setBooks] = useState([]);
+  const [myBooks, setMyBooks] = useState([]);
 
   const logout = () => {
     firebase.auth.signOut();
@@ -49,9 +50,21 @@ const Dashboard = (props) => {
           style={{ maxWidth: "1300px", padding: "4% 7%", margin: "0 auto" }}
         >
           {user.role === "customer" ? (
-            <Customer />
+            <Customer
+              user={currentUser.uid}
+              books={books}
+              setBooks={setBooks}
+              myBooks={myBooks}
+              setMyBooks={setMyBooks}
+            />
           ) : (
-            <Author user={currentUser.uid} />
+            <Author
+              user={currentUser.uid}
+              books={books}
+              setBooks={setBooks}
+              myBooks={myBooks}
+              setMyBooks={setMyBooks}
+            />
           )}
         </main>
       </div>

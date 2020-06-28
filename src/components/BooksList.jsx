@@ -1,32 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Card } from "antd";
 import { HeartTwoTone } from "@ant-design/icons";
 import { AuthContext } from "../Auth";
-import firebase from "../config/firebase";
+import getBooks from "../functions/getBooks";
 
-const BooksList = () => {
+const BooksList = ({ books, setBooks }) => {
   const { currentUser } = useContext(AuthContext);
-  const [books, setBooks] = useState([]);
 
-  const getBooks = async () => {
-    await firebase.db
-      .collection("books")
-      .get()
-      .then(function (snapShots) {
-        setBooks({
-          items: snapShots.docs.map((doc) => {
-            return {
-              id: doc.id,
-              data: doc.data(),
-            };
-          }),
-        });
-      });
-  };
-
-  useState(() => {
-    getBooks();
-  }, []);
+  useEffect(() => {
+    getBooks(setBooks);
+    console.log("hey desde bookslist");
+  }, [setBooks]);
 
   if (currentUser != null) {
     return (

@@ -1,37 +1,23 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Button } from "antd";
 import { AuthContext } from "../Auth";
 import firebase from "../config/firebase";
+import getMyBooks from "../functions/getMyBooks";
+import getBooks from "../functions/getBooks";
 
-const BooksList = ({ user }) => {
+const BooksList = ({ user, myBooks, setMyBooks, setBooks }) => {
   const { currentUser } = useContext(AuthContext);
-  const [myBooks, setMyBooks] = useState([]);
-  const [editedBook, setEditedBook] = useState();
 
   useEffect(() => {
-    const getBooks = async () => {
-      await firebase.db
-        .collection("books")
-        .where("user", "==", user)
-        .get()
-        .then(function (snapShots) {
-          setMyBooks({
-            items: snapShots.docs.map((doc) => {
-              return {
-                id: doc.id,
-                data: doc.data(),
-              };
-            }),
-          });
-        });
-    };
-
-    getBooks();
-  }, []);
+    getMyBooks(setMyBooks, user);
+    console.log("hey");
+  }, [setMyBooks, user]);
 
   const deleteBook = async (id) => {
     await firebase.db.collection("books").doc(id).delete();
     console.log(`The book ${id} has been deleted`);
+    getMyBooks(setMyBooks, user);
+    getBooks(setBooks);
   };
 
   if (currentUser != null) {

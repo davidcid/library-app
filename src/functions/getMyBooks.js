@@ -1,8 +1,9 @@
 import firebase from "../config/firebase";
 
-const getBooks = async (setBooks) => {
+const getBooks = async (setBooks, user) => {
   await firebase.db
     .collection("books")
+    .where("user", "==", user)
     .get()
     .then(function (snapShots) {
       setBooks({

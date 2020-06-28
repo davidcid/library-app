@@ -1,18 +1,27 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../Auth";
 import BookList from "../components/BooksList";
-import MyBooks from "../components/MyBooks";
+import MyBooksList from "./MyBooksList";
 import BookRegistration from "./BookRegistration";
 
-const Author = () => {
+const Author = ({ books, setBooks, myBooks, setMyBooks }) => {
   const { currentUser } = useContext(AuthContext);
 
   if (currentUser != null) {
     return (
       <div>
-        <MyBooks user={currentUser.uid} />
-        <BookList />
-        <BookRegistration user={currentUser.uid} />
+        <MyBooksList
+          user={currentUser.uid}
+          myBooks={myBooks}
+          setMyBooks={setMyBooks}
+          setBooks={setBooks}
+        />
+        <BookList books={books} setBooks={setBooks} />
+        <BookRegistration
+          user={currentUser.uid}
+          setMyBooks={setMyBooks}
+          setBooks={setBooks}
+        />
       </div>
     );
   }

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Card } from "antd";
 import firebase from "../config/firebase";
+import getMyBooks from "../functions/getMyBooks";
+import getBooks from "../functions/getBooks";
 
-const BookRegistration = ({ user }) => {
+const BookRegistration = ({ user, setBooks, setMyBooks }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [author, setAuthor] = useState("");
@@ -20,6 +22,8 @@ const BookRegistration = ({ user }) => {
         user: user,
       });
       console.log("Document Written with ID: ", docRef.id);
+      getMyBooks(setMyBooks, user);
+      getBooks(setBooks);
     } catch (err) {
       console.log("Error creating book");
     }
