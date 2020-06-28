@@ -69,6 +69,10 @@ class Firebase {
   getRole() {
     return this.db.collection("users");
   }
+
+  deleteBook(id) {
+    return this.db.collection("books").doc(id).delete();
+  }
 }
 
 export default new Firebase();

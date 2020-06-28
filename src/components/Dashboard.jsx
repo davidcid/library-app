@@ -52,11 +52,16 @@ const Dashboard = (props) => {
           footer={[<h3>Welcome {currentUser.uid}</h3>]}
           style={{ backgroundColor: "#f5f5f5" }}
         />
-        {role[0] === "customer" ? (
-          <Customer />
-        ) : (
-          <Author user={currentUser.uid} />
-        )}
+        <main
+          style={{ maxWidth: "1300px", padding: "4% 7%", margin: "0 auto" }}
+        >
+          {" "}
+          {role[0] === "customer" ? (
+            <Customer />
+          ) : (
+            <Author user={currentUser.uid} />
+          )}
+        </main>
       </div>
     );
   }
