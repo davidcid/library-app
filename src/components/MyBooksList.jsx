@@ -22,7 +22,7 @@ const BooksList = ({ user, myBooks, setMyBooks, setBooks }) => {
 
   if (currentUser != null) {
     return (
-      <div>
+      <div style={{ marginTop: "25px" }}>
         <h1>My books</h1>
         {myBooks.items && myBooks.items !== undefined ? (
           <ul>
@@ -41,20 +41,6 @@ const BooksList = ({ user, myBooks, setMyBooks, setBooks }) => {
                 >
                   {book.data.title}
                 </p>
-                <Button
-                  type="warning"
-                  style={{
-                    padding: "0px 5px",
-                    margin: "0 5px",
-                    minWidth: "55px",
-                    backgroundColor: "#f2bf20",
-                  }}
-                  onClick={() => {
-                    // getBook(book.id);
-                  }}
-                >
-                  Edit
-                </Button>
                 <Button
                   type="danger"
                   style={{

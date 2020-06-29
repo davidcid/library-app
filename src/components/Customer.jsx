@@ -17,11 +17,6 @@ const Customer = ({ books, setBooks, myBooks, setMyBooks }) => {
           setBooks={setBooks}
         />
         <BookList books={books} setBooks={setBooks} />
-        <BookRegistration
-          user={currentUser.uid}
-          setMyBooks={setMyBooks}
-          setBooks={setBooks}
-        />
       </div>
     );
   }

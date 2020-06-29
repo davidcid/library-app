@@ -15,7 +15,6 @@ const getBooks = async (setBooks, user) => {
         }),
       });
     });
-  console.log("hey desde funcion");
 };
 
 export default getBooks;

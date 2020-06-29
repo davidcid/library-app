@@ -44,7 +44,7 @@ const Dashboard = (props) => {
           title="Library App"
           extra={[<Button onClick={logout}>Sign Out</Button>]}
           footer={[<h3>Welcome {user.first}</h3>]}
-          style={{ backgroundColor: "#f5f5f5" }}
+          style={{ backgroundColor: "#f5f5f5", paddingBottom: "10px" }}
         />
         <main
           style={{ maxWidth: "1300px", padding: "4% 7%", margin: "0 auto" }}

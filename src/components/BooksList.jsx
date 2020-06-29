@@ -3,18 +3,35 @@ import { Card } from "antd";
 import { HeartTwoTone } from "@ant-design/icons";
 import { AuthContext } from "../Auth";
 import getBooks from "../functions/getBooks";
+import firebase from "../config/firebase";
 
 const BooksList = ({ books, setBooks }) => {
   const { currentUser } = useContext(AuthContext);
 
+  const subscribe = async (id) => {
+    function subBook(book) {
+      return book.id === id;
+    }
+    console.log(books.items.find(subBook).data.subscribed);
+    // if (books.items.find(subBook).data.subscribed.includes(currentUser.email)) {
+    //   console.log("already in the list");
+    // }
+    firebase.db.collection("books").doc(id).set(
+      {
+        subscribed: currentUser.email,
+      },
+      { merge: true }
+    );
+    getBooks(setBooks);
+  };
+
   useEffect(() => {
     getBooks(setBooks);
-    console.log("hey desde bookslist");
   }, [setBooks]);
 
   if (currentUser != null) {
     return (
-      <div>
+      <div style={{ marginTop: "50px" }}>
         <h1>Other Books Registered</h1>
         <div
           style={{
@@ -33,6 +50,7 @@ const BooksList = ({ books, setBooks }) => {
                       <HeartTwoTone
                         twoToneColor="#f3f3f3"
                         style={{ fontSize: "24px" }}
+                        onClick={() => subscribe(book.id)}
                       />
                     }
                     style={{

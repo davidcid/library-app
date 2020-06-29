@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Card } from "antd";
+import { Modal, Form, Input, Button } from "antd";
 import firebase from "../config/firebase";
 import getMyBooks from "../functions/getMyBooks";
 import getBooks from "../functions/getBooks";
 
-const BookRegistration = ({ user, setBooks, setMyBooks }) => {
+const BookRegistration = ({
+  user,
+  setBooks,
+  setMyBooks,
+  visible,
+  setVisible,
+}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [author, setAuthor] = useState("");
@@ -29,8 +35,32 @@ const BookRegistration = ({ user, setBooks, setMyBooks }) => {
     }
   }
 
+  const handleOk = () => {
+    setVisible(false);
+    submitBook();
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
   return (
-    <Card title="Book Registration" style={{ width: 300, textAlign: "center" }}>
+    <Modal
+      visible={visible}
+      onOk={handleOk}
+      onCancel={handleCancel}
+      title="Register a New Book"
+      footer={[
+        <Button
+          key="submit"
+          type="primary"
+          onClick={handleOk}
+          htmlType="submit"
+        >
+          Submit
+        </Button>,
+      ]}
+    >
       <Form onFinish={submitBook}>
         <Input
           placeholder="Title"
@@ -66,16 +96,8 @@ const BookRegistration = ({ user, setBooks, setMyBooks }) => {
           }}
           autoComplete="off"
         />
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="register-form-button"
-          style={{ width: "100%", marginBottom: "10px" }}
-        >
-          Register new book
-        </Button>
       </Form>
-    </Card>
+    </Modal>
   );
 };
 
